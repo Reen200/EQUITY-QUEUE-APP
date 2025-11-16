@@ -1,0 +1,1112 @@
+<div id="status-dashboard" style="display:none;" class="status-dashboard-box">
+    <h1>My Appointment Ticket</h1>
+    <div id="status-ticket-content">No appointment booked yet.</div>
+    <button onclick="showMainContent()"
+        style="margin-top:18px;padding:8px 24px;border-radius:8px;background:#1976d2;color:#fff;border:none;">Back</button>
+</div>
+<html>
+
+
+<head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+
+<body>
+    <div id="cover-page"
+        style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;background:linear-gradient(135deg,#253547,#42a5f5);color:#fff;text-align:center;">
+        <h1 style="font-size:2.5em;margin-bottom:20px;">Welcome to Equity Bank Queue Management</h1>
+        <p style="font-size:1.2em;margin-bottom:30px;">Book your appointment, manage your queue, and get notified when
+            it’s your turn.</p>
+        <button onclick="showMainContent()"
+            style="padding:12px 36px;border:none;border-radius:10px;background:#fff;color:#6c0d56;font-size:1.1em;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,0.2);transition:all 0.3s;">
+            Get Started</button>
+    </div>
+    <div id="main-content">
+        <div class="wide-btn-box">
+            <div class="wide-btn">
+                <div class="logo-title-group">
+                    <img src="bank.jpg" alt="Bank Logo" class="bank-logo">
+                    <div class="app-title">EQUITY BANK APP</div>
+                </div>
+                <div class="links-group">
+                    <a href="#" id="my-status-link">MY STATUS</a>
+                    <a href="admin" class="admin-link" onclick="showAdminAuth(event)">ADMIN</a>
+                </div>
+            </div>
+        </div>
+        <div class="current-time-wide-btn">
+            <span class="current-time-label">CURRENT TIME</span>
+            <span id="current-time" class="time-display"></span>
+        </div>
+        <div class="services-box">
+            <h2>SERVICES OFFERED</h2>
+            <div class="services-list">
+                <div class="service-square"><i class="fas fa-user-plus"></i>Account Opening</div>
+                <div class="service-square"><i class="fas fa-money-bill-wave"></i>Cash Deposits</div>
+                <div class="service-square"><i class="fas fa-money-bill-alt"></i>Cash Withdrawals</div>
+                <div class="service-square"><i class="fas fa-exchange-alt"></i>Money Transfers</div>
+                <div class="service-square"><i class="fas fa-file-signature"></i>Loan Applications</div>
+                <div class="service-square"><i class="fas fa-mobile-alt"></i>Mobile Banking</div>
+                <div class="service-square"><i class="fas fa-atm"></i>ATM Services</div>
+                <div class="service-square"><i class="fas fa-headset"></i>Customer Support</div>
+                <div class="service-square"><i class="fas fa-file"></i>Cheque Services</div>
+                <div class="service-square"><i class="fas fa-receipt"></i>Bill Payments</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="appointment-box" id="appointment-box">
+        <h1>BOOK YOUR APPOINTMENT</h1>
+        <p>Schedule your visit and skip the wait</p>
+        <!-- Appointment Form Start -->
+        <div class="appointment-names-row">
+            <div>
+                <label for="first-name" class="names-label">First Name:</label>
+                <input type="text" id="first-name" name="first-name" required>
+            </div>
+            <div>
+                <label for="second-name" class="names-label">Second Name:</label>
+                <input type="text" id="second-name" name="second-name" required>
+            </div>
+            <div>
+                <label for="service-type" class="names-label">Service:</label>
+                <input type="text" id="service-type" name="service-type" readonly placeholder="Select a service">
+            </div>
+        </div>
+        <div class="appointment-names-row">
+            <div>
+                <label for="country-code" class="names-label">Country:</label>
+                <select id="country-code" name="country-code" style="width:120px;margin-bottom:6px;">
+                    <option value="+254" data-length="12">Kenya (+254)</option>
+                    <option value="+256" data-length="12">Uganda (+256)</option>
+                    <option value="+255" data-length="12">Tanzania (+255)</option>
+                    <option value="+1" data-length="11">USA (+1)</option>
+                    <option value="+44" data-length="12">UK (+44)</option>
+                    <option value="+91" data-length="13">India (+91)</option>
+                    <option value="+234" data-length="13">Nigeria (+234)</option>
+                    <option value="+27" data-length="11">South Africa (+27)</option>
+                </select>
+                <label for="phone-number" class="names-label">Phone Number:</label>
+                <input type="tel" id="phone-number" name="phone-number" required placeholder="e.g. +254712345678">
+            </div>
+        </div>
+        <div class="appointment-email-row">
+            <div>
+                <label for="email-address" class="names-label">Email Address:</label>
+                <input type="email" id="email-address" name="email-address" required>
+            </div>
+        </div>
+        <div class="appointment-priority-row" style="margin-top:8px;">
+            <label style="display:inline-flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="priority-flag" name="priority-flag" />
+                <span style="font-size:0.95em;">Priority booking (Elderly / Health condition)</span>
+            </label>
+            <div style="margin-top:6px;">
+                <label for="priority-note" class="names-label">If yes, note (optional):</label>
+                <input type="text" id="priority-note" name="priority-note" placeholder="e.g. wheelchair assistance" style="width:60%;">
+            </div>
+        </div>
+        <div class="appointment-time-row">
+            <div>
+                <label for="appointment-time" class="names-label">Choose Time Slot:</label>
+                <select id="appointment-time" name="appointment-time" required>
+                    <!-- Time slots will be populated by JavaScript -->
+                </select>
+            </div>
+            <div style="margin-top:12px;">
+                <label for="appointment-date" class="names-label">Choose Date:</label>
+                <input type="date" id="appointment-date" name="appointment-date" class="calendar-input" required>
+            </div>
+        </div>
+        <form class="appointment-form">
+            <button type="submit">Book Appointment</button>
+        </form>
+        <!-- Appointment Form End -->
+    </div>
+    <!-- Move counters section OUTSIDE the appointment box -->
+    <div id="counters-section" style="margin: 40px auto 0 auto; max-width: 900px;">
+        <h2 class="counters-heading">Counters</h2>
+        <div id="counters-list" style="display: flex; flex-wrap: wrap; gap: 24px; justify-content: center;">
+            <!-- Counters will be rendered here -->
+        </div>
+    </div>
+    <div id="app-rating" class="app-rating" style="text-align:center;margin:32px 0 0 0;">
+        <h3 style="color:#1976d2;">Rate Our App</h3>
+        <form id="rating-form" style="display:inline-block;">
+            <label for="user-rating">Your Rating:</label>
+            <select id="user-rating" name="user-rating" required>
+                <option value="">Select</option>
+                <option value="5">Excellent</option>
+                <option value="4">Good</option>
+                <option value="3">Average</option>
+                <option value="2">Poor</option>
+                <option value="1">Very Poor</option>
+            </select>
+            <br><br>
+            <label for="user-feedback">Feedback (optional):</label><br>
+            <textarea id="user-feedback" name="user-feedback" rows="2" cols="40"
+                placeholder="Let us know if you faced any issues..."></textarea>
+            <br><br>
+            <button type="submit"
+                style="background:#1976d2;color:#fff;padding:8px 24px;border:none;border-radius:8px;">Submit</button>
+        </form>
+        <div id="rating-success" style="color:green;margin-top:12px;display:none;">Thank you for your feedback!</div>
+    </div>
+    <div class="equity-slogan">
+        "Thank you for choosing Equity Bank – Your success, our commitment!"
+    </div>
+    <div style="text-align:center;margin:18px 0 32px 0;font-size:1.1em;color:#555;">
+        Equity Bank <span style="font-size:1.2em;vertical-align:super;">&trade;</span>
+    </div>
+    </div>
+    <script>
+        document.getElementById('rating-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            document.getElementById('rating-success').style.display = 'block';
+            this.reset();
+        });
+
+        // Initialize EmailJS
+        emailjs.init('R2qTvs7WkJ8vMmxPH');
+
+        function sendEmailNotification(toEmail, subject, message) {
+            emailjs.send('service_s4ohq2l', 'template_9n4scwb', {
+                to_email: toEmail,
+                email_subject: subject,
+                email_message: message
+            }).then(function (response) {
+                console.log('Email sent!', response.status, response.text);
+            }, function (error) {
+                console.error('Email failed:', error);
+            });
+        }
+        // --- Automatic Email Reminders + Local notifications ---
+        async function ensureNotificationPermission() {
+            if (!('Notification' in window)) return false;
+            if (Notification.permission === 'granted') return true;
+            if (Notification.permission !== 'denied') {
+                const p = await Notification.requestPermission();
+                return p === 'granted';
+            }
+            return false;
+        }
+
+        function showLocalNotification(title, body) {
+            try {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(title, { body: body, icon: 'bank.jpg' });
+                } else {
+                    console.log('Notification:', title, body);
+                    // fallback
+                    // don't spam alerts; show console and optional alert
+                    // alert(title + '\n\n' + body);
+                }
+            } catch (e) { console.warn('showLocalNotification failed', e); }
+        }
+
+        function playAlarm(duration = 1800) {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.type = 'sine';
+                o.frequency.value = 880;
+                g.gain.value = 0.08;
+                o.connect(g);
+                g.connect(ctx.destination);
+                o.start();
+                setTimeout(() => { o.stop(); if (ctx.close) ctx.close(); }, duration);
+            } catch (e) { console.warn('playAlarm failed', e); }
+        }
+
+        async function scheduleEmailReminders(email, appointmentTime) {
+            if (!email || !appointmentTime) return;
+            // proactively ask for permission (non-blocking)
+            ensureNotificationPermission().catch(() => {});
+
+            const now = new Date();
+            const apptTime = new Date(appointmentTime);
+            if (isNaN(apptTime.getTime())) return;
+
+            const tenMinBefore = new Date(apptTime.getTime() - 10 * 60000);
+            const timeToTenMin = tenMinBefore.getTime() - now.getTime();
+            const timeToExact = apptTime.getTime() - now.getTime();
+
+            if (timeToTenMin > 0) {
+                setTimeout(() => {
+                    sendEmailNotification(
+                        email,
+                        '10-Minute Reminder - Equity Bank Appointment',
+                        'Dear Customer,\n\nYour Equity Bank appointment is in 10 minutes. Please prepare to proceed to the counter.\n\nThank you.'
+                    );
+                    showLocalNotification('10-minute reminder', 'Your appointment is in 10 minutes.');
+                    playAlarm(1400);
+                    console.log('10-min reminder sent to', email);
+                }, timeToTenMin);
+            }
+
+            if (timeToExact > 0) {
+                setTimeout(() => {
+                    sendEmailNotification(
+                        email,
+                        "It's Your Turn - Equity Bank Appointment",
+                        "Dear Customer,\n\nIt's now your turn for your Equity Bank appointment. Please proceed to the counter.\n\nThank you."
+                    );
+                    showLocalNotification("It's your time", 'Please proceed to the counter for your appointment.');
+                    playAlarm(2000);
+                    console.log('Appointment-time reminder sent to', email);
+                }, timeToExact);
+            }
+        }
+
+
+    </script>
+    
+    <script>
+        // Appointment time reminder feature
+        function checkAppointmentReminders() {
+            const allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            const now = new Date();
+            const nowHour = now.getHours();
+            const nowMinute = now.getMinutes();
+            // Sort appointments by date and time
+            allAppointments.sort(function (a, b) {
+                var dateA = new Date(a.appointmentDate + 'T' + a.appointmentTime);
+                var dateB = new Date(b.appointmentDate + 'T' + b.appointmentTime);
+                return dateA - dateB;
+            });
+            allAppointments.forEach((appt, idx) => {
+                if (!appt.email) return;
+                // 5-min reminder
+                if (!appt.reminderSent && appt.appointmentTime && appt.appointmentDate) {
+                    var apptDateTime = new Date(appt.appointmentDate + 'T' + appt.appointmentTime);
+                    var nowDateTime = new Date();
+                    var diffMs = apptDateTime - nowDateTime;
+                    var diffMin = Math.floor(diffMs / 60000);
+                    if (diffMin === 5 && idx === 0) {
+                        sendEmailNotification(appt.email, 'Appointment Reminder',
+                            `Dear ${appt.firstName} ${appt.secondName},\nYou are next in line! Your appointment at Counter ${appt.counter} is in 5 minutes.`);
+                        appt.reminderSent = true;
+                    }
+                }
+                // Time alert
+                if (!appt.timeAlertSent && appt.appointmentTime && appt.appointmentDate) {
+                    var apptDateTime = new Date(appt.appointmentDate + 'T' + appt.appointmentTime);
+                    var nowDateTime = new Date();
+                    var diffMs = apptDateTime - nowDateTime;
+                    var diffMin = Math.floor(diffMs / 60000);
+                    if (diffMin === 0) {
+                        sendEmailNotification(appt.email, 'Appointment Time',
+                            `Dear ${appt.firstName} ${appt.secondName},\nIt is now time for your appointment at Counter ${appt.counter}.`);
+                        appt.timeAlertSent = true;
+                    }
+                }
+                // Expired alert
+                if (!appt.expiredAlertSent && appt.appointmentTime && appt.appointmentDate) {
+                    var apptDateTime = new Date(appt.appointmentDate + 'T' + appt.appointmentTime);
+                    var nowDateTime = new Date();
+                    var diffMs = nowDateTime - apptDateTime;
+                    var diffMin = Math.floor(diffMs / 60000);
+                    if (diffMin === 10) {
+                        sendEmailNotification(appt.email, 'Ticket Expired',
+                            `Dear ${appt.firstName} ${appt.secondName},\nYour appointment ticket for Counter ${appt.counter} has expired.`);
+                        appt.expiredAlertSent = true;
+                    }
+                }
+            });
+            // Save back to localStorage to avoid repeat reminders
+            localStorage.setItem('myAppointments', JSON.stringify(allAppointments));
+        }
+        setInterval(checkAppointmentReminders, 60000); // Check every minute
+        // Number of counters
+        const NUM_COUNTERS = 8;
+
+        // Assign counter in round-robin fashion (now 8 counters)
+        function getNextCounter() {
+            let allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            return (allAppointments.length % NUM_COUNTERS) + 1;
+        }
+
+        // Save appointment to localStorage (only ONE event listener!)
+        document.querySelector('.appointment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+    
+    // 1️⃣ Get form values
+    var firstName = document.getElementById('first-name').value.trim();
+    var secondName = document.getElementById('second-name').value.trim();
+    var serviceType = document.getElementById('service-type').value.trim();
+    var appointmentDate = document.getElementById('appointment-date').value;
+    var appointmentTime = document.getElementById('appointment-time').value;
+    var countryCode = document.getElementById('country-code').value;
+    var phone = document.getElementById('phone-number').value.trim();
+    var email = document.getElementById('email-address').value.trim();
+
+    // 2️⃣ Validate service selection
+    if (!serviceType) {
+        alert('Please select a service by clicking one of the service squares.');
+        document.getElementById('service-type').focus();
+        return;
+    }
+
+    // 3️⃣ Validate appointment time
+    var selectedDateTime = new Date(`${appointmentDate}T${appointmentTime}`);
+    var now = new Date();
+    var diffMinutes = (selectedDateTime - now) / (1000 * 60);
+    if (diffMinutes <= 0) {
+        alert("You cannot book a past time. Please choose another time.");
+        return;
+    } else if (diffMinutes < 10) {
+        alert("Appointments must be at least 10 minutes from now.");
+        return;
+    }
+
+    // 4️⃣ Validate email
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    // 5️⃣ Validate phone number
+    var selectedOption = document.getElementById('country-code').selectedOptions[0];
+    var expectedLength = parseInt(selectedOption.getAttribute('data-length'));
+    var phonePattern = new RegExp('^\\' + countryCode + '\\d{' + (expectedLength - countryCode.length) + '}$');
+    if (!phonePattern.test(phone)) {
+        alert('Please enter a valid phone number for ' + selectedOption.text);
+        return;
+    }
+
+    // 6️⃣ Assign counter
+    var counterNumber = getNextCounter();
+
+    // 7️⃣ Create appointment object
+    var appointment = {
+        firstName,
+        secondName,
+        phone,
+        email,
+        time: now.toLocaleString(),
+        createdAt: now.getTime(),
+        appointmentTime,
+        appointmentDate,
+        counter: counterNumber,
+        serviceType,
+        isPriority: !!document.getElementById('priority-flag').checked,
+        priorityNote: (document.getElementById('priority-note') || {value:''}).value.trim(),
+        reminderSent: false,
+        timeAlertSent: false,
+        expiredAlertSent: false
+    };
+
+    // 8️⃣ Save to localStorage
+    var allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+    allAppointments.push(appointment);
+    localStorage.setItem('myAppointments', JSON.stringify(allAppointments));
+    // remember last booked appointment for this browser session
+    try { localStorage.setItem('lastBookedId', String(appointment.createdAt)); } catch(e) { console.warn('could not set lastBookedId', e); }
+
+    // 9️⃣ Send immediate confirmation email
+    sendEmailNotification(
+        email,
+        "Equity Bank Appointment Confirmed",
+        `Dear ${firstName},Your appointment for ${serviceType} at Counter ${counterNumber} has been booked successfully for ${appointmentDate} at ${appointmentTime}.\n
+        Kindly arrive on time to avoid any inconviences\nThank you.`
+    );
+
+    // 🔟 Schedule 10-min and on-time reminders (local alarm + email)
+    scheduleEmailReminders(email, `${appointmentDate}T${appointmentTime}`);
+
+    // 11️⃣ Alert success and reset form
+    alert('Appointment booked successfully! You have been allocated to Counter ' + counterNumber + '.');
+    this.reset();
+    document.getElementById('service-type').value = '';
+
+    // 12️⃣ Update counters display
+    renderCounters();
+});
+
+
+        // Show only the last booked appointment for this browser session
+        document.getElementById('my-status-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('main-content').style.display = 'none';
+            var appointmentBox = document.getElementById('appointment-box'); if (appointmentBox) appointmentBox.style.display = 'none';
+            document.getElementById('status-dashboard').style.display = 'block';
+
+            // Hide counters and app rating
+            var appRating = document.getElementById('app-rating'); if (appRating) appRating.style.display = 'none';
+            var countersSection = document.getElementById('counters-section'); if (countersSection) countersSection.style.display = 'none';
+
+            var content = document.getElementById('status-ticket-content');
+            var allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            var lastId = localStorage.getItem('lastBookedId');
+
+            if (!lastId) {
+                content.innerHTML = '<div style="padding:18px;background:#fff;border-radius:8px;">No recent booking found. Please book an appointment first.</div>';
+                return;
+            }
+
+            var appt = allAppointments.find(a => String(a.createdAt) === String(lastId));
+            if (!appt) {
+                content.innerHTML = '<div style="padding:18px;background:#fff;border-radius:8px;">Your last booked ticket was not found (it may have been deleted).</div>';
+                return;
+            }
+
+            // render single ticket
+            let expired = false;
+            if (appt.appointmentDate && appt.appointmentTime) {
+                let apptDateTime = new Date(appt.appointmentDate + 'T' + appt.appointmentTime);
+                let nowDateTime = new Date();
+                expired = nowDateTime - apptDateTime > 10 * 60 * 1000;
+            }
+
+            const idx = allAppointments.indexOf(appt);
+            content.innerHTML = `
+                <div id="ticket-${idx}" style='background:#fff;border-radius:12px;box-shadow:0 2px 16px #0002;padding:18px 14px;margin-bottom:18px;position:relative;'>
+                    <b>Ticket</b><br>
+                    <b>Name:</b> ${appt.firstName} ${appt.secondName}<br>
+                    <b>Service:</b> ${appt.serviceType || 'Not selected'}<br>
+                    <b>Phone:</b> ${appt.phone}<br>
+                    <b>Email:</b> ${appt.email}<br>
+                    <b>Booked at:</b> ${appt.time}<br>
+                    <b>Appointment Date:</b> ${appt.appointmentDate || 'Not set'}<br>
+                    <b>Appointment Time:</b> ${appt.appointmentTime || 'Not set'}<br>
+                    <b>Allocated Counter:</b> Counter ${appt.counter || 'N/A'}<br>
+                    <b>Priority:</b> ${appt.isPriority ? `<span style="color:#d32f2f;font-weight:bold;">PRIORITY</span>${appt.priorityNote ? ' - '+appt.priorityNote : ''}` : '<span style="color:#388e3c;font-weight:bold;">Normal</span>'}<br>
+                    <span style='color:${expired ? "red" : "green"};font-weight:bold;'>${expired ? "Expired" : "Active"}</span><br>
+                    <div style="margin-top:10px;">
+                      <button class='delete-ticket-btn' data-ticket-idx='${idx}' style='background:#e53935;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;margin-right:8px;'>Delete</button>
+                      ${!expired ? `<button class="print-btn" onclick="printTicket(${idx})">🖨️ Print Ticket</button>` : ''}
+                    </div>
+                </div>`;
+
+            // bind delete
+            setTimeout(function(){
+                var delBtn = document.querySelector('.delete-ticket-btn');
+                if (delBtn) {
+                    delBtn.addEventListener('click', function(ev){
+                        ev.stopPropagation();
+                        if (!confirm('Delete this ticket?')) return;
+                        var allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+                        allAppointments.splice(idx,1);
+                        localStorage.setItem('myAppointments', JSON.stringify(allAppointments));
+                        try { if (String(localStorage.getItem('lastBookedId')) === String(appt.createdAt)) localStorage.removeItem('lastBookedId'); } catch(e){}
+                        showMainContent();
+                    });
+                }
+            },0);
+        });
+
+
+        // Render counters and their appointments (now 8 counters)
+        function renderCounters() {
+            const countersList = document.getElementById('counters-list');
+            let allAppointments = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            // Group appointments by counter
+            let counters = Array.from({ length: NUM_COUNTERS }, () => []);
+            allAppointments.forEach((appt) => {
+                let counterIdx = (appt.counter ? appt.counter - 1 : 0);
+                counters[counterIdx].push(appt);
+            });
+
+            // Build HTML for each counter, showing priority count (no staff Call Next button)
+            countersList.innerHTML = counters.map((counterAppointments, i) => {
+                // sort: priority first (isPriority true), then by createdAt
+                counterAppointments.sort((a, b) => {
+                    const pa = a.isPriority ? 1 : 0;
+                    const pb = b.isPriority ? 1 : 0;
+                    if (pa !== pb) return pb - pa; // priority true first
+                    return (a.createdAt || 0) - (b.createdAt || 0);
+                });
+
+                const total = counterAppointments.length;
+                const priorityCount = counterAppointments.filter(c => c.isPriority).length;
+
+                return `
+                <div class="counter-box">
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                      <div class="counter-name">Counter ${i + 1}</div>
+                      <div style="display:flex;gap:8px;align-items:center;">
+                        ${priorityCount > 0 ? `<span style="background:#ffeb3b;color:#333;padding:4px 8px;border-radius:12px;font-size:0.8em;">Priority: ${priorityCount}</span>` : ''}
+                      </div>
+                    </div>
+                    <div class="counter-no-bookings" style="font-size:10px; color:#333; text-align:center; margin-top:10px;">
+                        ${total === 0 ? 'No one in line' : total + (total === 1 ? ' person in line' : ' people in line')}
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        // Generate time slots from 08:00 to 17:00 (every 30 minutes)
+        function populateTimeSlots() {
+            const select = document.getElementById('appointment-time');
+            select.innerHTML = '';
+            let start = 8 * 60; // 8:00 AM in minutes
+            let end = 17 * 60;  // 5:00 PM in minutes
+            for (let mins = start; mins < end; mins += 30) {
+                let hour = Math.floor(mins / 60);
+                let minute = mins % 60;
+                let display = (hour < 10 ? '0' : '') + hour + ':' + (minute === 0 ? '00' : minute);
+                let ampm = hour < 12 ? 'AM' : 'PM';
+                let hour12 = hour % 12 === 0 ? 12 : hour % 12;
+                let label = `${hour12}:${minute === 0 ? '00' : minute} ${ampm}`;
+                let value = display;
+                let option = document.createElement('option');
+                option.value = value;
+                option.textContent = label;
+                select.appendChild(option);
+            }
+        }
+        populateTimeSlots();
+
+        // Show main content from status dashboard
+        function showMainContent() {
+            document.getElementById('status-dashboard').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            var appointmentBox = document.getElementById('appointment-box');
+            if (appointmentBox) appointmentBox.style.display = 'block';
+            var countersSection = document.getElementById('counters-section');
+            if (countersSection) countersSection.style.display = '';
+            var adminDashboard = document.getElementById('admin-dashboard');
+            if (adminDashboard) adminDashboard.style.display = 'none';
+            var appRating = document.getElementById('app-rating');
+            if (appRating) appRating.style.display = '';
+
+        }
+
+        // Scroll to appointment box and focus first name when a service is clicked
+        window.addEventListener('DOMContentLoaded', function () {
+            var serviceSquares = document.querySelectorAll('.service-square');
+            var appointmentBox = document.querySelector('.appointment-box');
+            var firstNameInput = document.getElementById('first-name');
+            var countryCodeSelect = document.getElementById('country-code');
+            var phoneInput = document.getElementById('phone-number');
+            var serviceTypeInput = document.getElementById('service-type');
+            // Pre-fill phone input with country code
+            function updatePhonePlaceholder() {
+                phoneInput.value = countryCodeSelect.value;
+            }
+            countryCodeSelect.addEventListener('change', updatePhonePlaceholder);
+            updatePhonePlaceholder();
+            serviceSquares.forEach(function (square) {
+                square.addEventListener('click', function () {
+                    var serviceName = square.textContent.trim();
+                    serviceTypeInput.value = serviceName;
+                    appointmentBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (firstNameInput) {
+                        setTimeout(function () { firstNameInput.focus(); }, 400);
+                    }
+                });
+            });
+        });
+
+        // Cancel admin authentication and return to main content
+        function cancelAdminAuth() {
+            document.getElementById('admin-auth-box').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        }
+
+        // Update current time display
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('current-time').textContent = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Show admin authentication box (creates it dynamically if missing)
+        function showAdminAuth(event) {
+            event.preventDefault();
+            var main = document.getElementById('main-content');
+            if (main) main.style.display = 'none';
+
+            var existing = document.getElementById('admin-auth-box');
+            if (!existing) {
+                var authBox = document.createElement('div');
+                authBox.id = 'admin-auth-box';
+                authBox.style = 'position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:9999;';
+                authBox.innerHTML = `
+                    <div style="background:#fff;padding:18px;border-radius:10px;max-width:480px;width:90%;box-shadow:0 6px 24px rgba(0,0,0,0.25);">
+                        <h2 style="margin-top:0;color:#1976d2;">Admin Login</h2>
+                        <p>Please enter your admin password to continue.</p>
+                        <div style="margin:8px 0;"><input id="admin-password" type="password" placeholder="Password" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;"/></div>
+                        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px;">
+                            <button id="admin-cancel-btn" style="padding:8px 12px;border-radius:6px;border:1px solid #ccc;background:#fff;">Cancel</button>
+                            <button id="admin-login-btn" style="padding:8px 12px;border-radius:6px;border:none;background:#1976d2;color:#fff;">Login</button>
+                        </div>
+                        <div style="margin-top:10px;font-size:0.85em;color:#666;">Default password: <strong>admin123</strong> (change in code for production)</div>
+                    </div>
+                `;
+                document.body.appendChild(authBox);
+
+                document.getElementById('admin-cancel-btn').addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    cancelAdminAuth();
+                });
+
+                document.getElementById('admin-login-btn').addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    var pw = document.getElementById('admin-password').value || '';
+                    // Simple local check; replace with real auth on server later
+                    if (pw === 'admin123') {
+                        // hide auth box and show dashboard
+                        var ab = document.getElementById('admin-auth-box'); if (ab) ab.style.display = 'none';
+                        showAdminDashboard();
+                    } else {
+                        alert('Invalid admin password');
+                    }
+                });
+            } else {
+                existing.style.display = 'block';
+            }
+        }
+
+        // Show admin dashboard (creates it dynamically if missing)
+        function showAdminDashboard(event) {
+            if (event && event.preventDefault) event.preventDefault();
+
+            // hide auth box if present
+            var ab = document.getElementById('admin-auth-box'); if (ab) ab.style.display = 'none';
+            var main = document.getElementById('main-content'); if (main) main.style.display = 'none';
+
+            var dashboard = document.getElementById('admin-dashboard');
+            if (!dashboard) {
+                dashboard = document.createElement('div');
+                dashboard.id = 'admin-dashboard';
+                dashboard.style = 'padding:18px;';
+                dashboard.innerHTML = `
+                    <div style="display:flex;gap:18px;align-items:flex-start;">
+                        <div id="admin-left-column" style="min-width:220px;background:#fff;padding:12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                            <h3 style="margin-top:0;color:#1976d2;">Admin Menu</h3>
+                            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+                                <li><button data-feature="queue" class="admin-menu-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#e3f2fd;">Queue Monitoring</button></li>
+                                <li><button data-feature="logs" class="admin-menu-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#f3e5f5;">Transaction Logs</button></li>
+                                <li><button data-feature="settings" class="admin-menu-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#e8f5e9;">Settings</button></li>
+                                <li><button data-feature="staff" class="admin-menu-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#fff3e0;">Staff Management</button></li>
+                                <li><button data-feature="security" class="admin-menu-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#ffebee;">Security</button></li>
+                                <li style="margin-top:10px;"><button id="admin-back-btn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#9e9e9e;color:#fff;">Back to App</button></li>
+                            </ul>
+                        </div>
+                        <div id="admin-feature-content" style="flex:1;min-height:320px;background:#fff;padding:12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06);"></div>
+                    </div>
+                `;
+                document.body.appendChild(dashboard);
+
+                // bind menu buttons and move the app rating under the admin menu
+                setTimeout(function () {
+                    document.querySelectorAll('.admin-menu-btn').forEach(b => {
+                        b.addEventListener('click', function () {
+                            var f = this.getAttribute('data-feature');
+                            showAdminFeature(f);
+                        });
+                    });
+                    // move original #app-rating into admin-left-column (store placeholder to restore later)
+                    try {
+                        var adminLeft = document.getElementById('admin-left-column');
+                        var appRatingOriginal = document.getElementById('app-rating');
+                        if (adminLeft && appRatingOriginal && !window._appRatingMoved) {
+                            var placeholder = document.createElement('div');
+                            placeholder.id = 'app-rating-placeholder';
+                            appRatingOriginal.parentNode.insertBefore(placeholder, appRatingOriginal);
+                            adminLeft.appendChild(appRatingOriginal);
+                            // ensure it displays nicely in the column
+                            appRatingOriginal.style.marginTop = '12px';
+                            appRatingOriginal.style.width = '100%';
+                            window._appRatingMoved = true;
+                            window._appRatingPlaceholder = placeholder;
+                        }
+                    } catch (e) { console.warn('could not move app-rating into admin column', e); }
+
+                    document.getElementById('admin-back-btn').addEventListener('click', function () {
+                        // restore rating element to original place if moved
+                        try {
+                            if (window._appRatingMoved && window._appRatingPlaceholder) {
+                                var placeholder = window._appRatingPlaceholder;
+                                var origParent = placeholder.parentNode;
+                                var appRating = document.getElementById('app-rating');
+                                if (appRating && placeholder && placeholder.parentNode) {
+                                    placeholder.parentNode.insertBefore(appRating, placeholder);
+                                    placeholder.remove();
+                                }
+                                delete window._appRatingMoved;
+                                delete window._appRatingPlaceholder;
+                            }
+                        } catch (e) { console.warn('could not restore app-rating', e); }
+                        // restore slogan and footer if previously hidden
+                        try {
+                            if (window._equitySloganMoved && window._equitySloganEl) {
+                                window._equitySloganEl.style.display = '';
+                                delete window._equitySloganMoved; delete window._equitySloganEl;
+                            }
+                            if (window._equityFooterMoved && window._equityFooterEl) {
+                                window._equityFooterEl.style.display = '';
+                                delete window._equityFooterMoved; delete window._equityFooterEl;
+                            }
+                        } catch(e) { console.warn('could not restore equity slogan/footer', e); }
+                        showMainContent(); if (dashboard) dashboard.style.display = 'none';
+                    });
+                }, 0);
+            }
+
+            // hide appointment, counters, and other main-page extras (slogan/footer)
+            var appointmentBox = document.getElementById('appointment-box'); if (appointmentBox) appointmentBox.style.display = 'none';
+            var countersSection = document.getElementById('counters-section'); if (countersSection) countersSection.style.display = 'none';
+            try {
+                var sloganEl = document.querySelector('.equity-slogan');
+                if (sloganEl) {
+                    sloganEl.style.display = 'none';
+                    window._equitySloganMoved = true; window._equitySloganEl = sloganEl;
+                }
+                // find small footer that contains 'Equity Bank' and trademark symbol and hide it
+                var footerEl = Array.from(document.querySelectorAll('div')).find(d => d.textContent && d.textContent.trim().startsWith('Equity Bank') && d.textContent.includes('\u2122'));
+                if (footerEl) {
+                    footerEl.style.display = 'none';
+                    window._equityFooterMoved = true; window._equityFooterEl = footerEl;
+                }
+            } catch(e) { console.warn('hide extras for admin dashboard failed', e); }
+
+            dashboard.style.display = 'block';
+            // show default feature
+            showAdminFeature('queue');
+        }
+
+        // Show selected admin feature
+        function showAdminFeature(feature) {
+            const content = document.getElementById('admin-feature-content');
+            switch (feature) {
+                case 'queue':
+                    content.innerHTML = `
+                        <h2>Queue Monitoring</h2>
+                        <p>View and manage current bookings below. You can assign counters, mark completed, delete, and clear expired tickets.</p>
+                        <div style="margin-bottom:12px; display:flex; gap:12px; align-items:center;">
+                          <button id="admin-refresh-queue" style="padding:6px 12px;background:#1976d2;color:#fff;border:none;border-radius:6px;">Refresh</button>
+                          <button id="admin-clear-expired" style="padding:6px 12px;background:#e53935;color:#fff;border:none;border-radius:6px;">Clear Expired</button>
+                        </div>
+                        <div id="admin-queue-panel">
+                          <div id="admin-next-customers" style="margin-bottom:16px;"></div>
+                          <div id="admin-appointments-table"></div>
+                        </div>
+                    `;
+                    // allow DOM to update then bind actions and render
+                    setTimeout(function(){
+                        document.getElementById('admin-refresh-queue').addEventListener('click', renderAdminQueue);
+                        document.getElementById('admin-clear-expired').addEventListener('click', function(){ if(confirm('Clear expired tickets?')) { clearExpiredAppointments(); renderAdminQueue(); }});
+                        renderAdminQueue();
+                    }, 0);
+                    break;
+                case 'logs':
+                    content.innerHTML = `
+                        <h2>Transaction Logs</h2>
+                        <p>Review recent transactions, deposits, withdrawals, and transfers.</p>
+                        <table style="width:100%;border-collapse:collapse;">
+                            <tr><th>Date</th><th>User</th><th>Type</th><th>Amount</th></tr>
+                            <tr><td>2025-09-30</td><td>John Doe</td><td>Deposit</td><td>$500</td></tr>
+                            <tr><td>2025-09-30</td><td>Jane Smith</td><td>Withdrawal</td><td>$200</td></tr>
+                            <tr><td>2025-09-29</td><td>Mary Ann</td><td>Transfer</td><td>$1,000</td></tr>
+                        </table>
+                    `;
+                    break;
+                case 'settings':
+                    content.innerHTML = `
+                        <h2>Settings</h2>
+                        <p>Configure bank app settings, working hours, and service options.</p>
+                        <form>
+                            <label>Bank Opening Time: <input type="time" value="08:00"></label><br>
+                            <label>Bank Closing Time: <input type="time" value="17:00"></label><br>
+                            <label>Enable Mobile Banking: <input type="checkbox" checked></label><br>
+                            <button type="submit">Save Settings</button>
+                        </form>
+                    `;
+                    break;
+                case 'staff':
+                    content.innerHTML = `
+                        <h2>Staff Management</h2>
+                        <p>Add, edit, or remove staff and assign roles.</p>
+                        <ul>
+                            <li>Jane Admin <button>Edit</button> <button>Remove</button></li>
+                            <li>Paul Teller <button>Edit</button> <button>Remove</button></li>
+                            <li>Mary Manager <button>Edit</button> <button>Remove</button></li>
+                        </ul>
+                        <button>Add New Staff</button>
+                    `;
+                    break;
+                case 'security':
+                    content.innerHTML = `
+                        <h2>Security Controls</h2>
+                        <p>Manage admin passwords, permissions, and view login history.</p>
+                        <form>
+                            <label>Change Password: <input type="password" placeholder="New Password"></label>
+                            <button type="submit">Update Password</button>
+                        </form>
+                        <h3>Login History</h3>
+                        <ul>
+                            <li>2025-09-30 09:00 - Admin (Success)</li>
+                            <li>2025-09-29 16:45 - Admin (Failed)</li>
+                        </ul>
+                    `;
+                    break;
+                default:
+                    content.innerHTML = `<p>Select a feature to view details.</p>`;
+            }
+        }
+    </script>
+    <script>
+        // --- Admin queue management functions ---
+        function formatDateTime(dateStr, timeStr) {
+            try {
+                if (!dateStr) return 'Not set';
+                const d = new Date(dateStr + 'T' + (timeStr || '00:00'));
+                return d.toLocaleString();
+            } catch (e) { return dateStr + ' ' + (timeStr||''); }
+        }
+
+        function renderAdminQueue() {
+            const all = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            const panel = document.getElementById('admin-appointments-table');
+            const nextPanel = document.getElementById('admin-next-customers');
+            if (!panel) return;
+
+            // Build appointments table
+            if (all.length === 0) {
+                panel.innerHTML = '<div>No appointments found.</div>';
+                nextPanel.innerHTML = '';
+                return;
+            }
+
+            let rows = all.map((appt, idx) => {
+                const apptDT = formatDateTime(appt.appointmentDate, appt.appointmentTime);
+                const expired = appt.appointmentDate && appt.appointmentTime && (new Date() - new Date(appt.appointmentDate + 'T' + appt.appointmentTime) > 10 * 60 * 1000);
+                const status = appt.completed ? 'Completed' : (expired ? 'Expired' : 'Active');
+                return `
+                    <tr>
+                      <td>${idx+1}</td>
+                      <td>${appt.firstName} ${appt.secondName}${appt.isPriority ? ' <strong style="color:#d32f2f;">(PRIORITY)</strong>' : ''}</td>
+                      <td>${appt.serviceType || ''}</td>
+                      <td>${appt.phone || ''}</td>
+                      <td>${appt.email || ''}</td>
+                      <td>${apptDT}</td>
+                      <td>
+                        <select data-idx="${idx}" class="assign-counter-select">
+                          <option value="">Auto</option>
+                          ${Array.from({length:NUM_COUNTERS}).map((_,i)=>`<option value="${i+1}" ${appt.counter===(i+1)?'selected':''}>Counter ${i+1}</option>`).join('')}
+                        </select>
+                      </td>
+                      <td>${appt.priorityNote || ''}</td>
+                      <td>${status}</td>
+                      <td>
+                        <button class="admin-assign-btn" data-idx="${idx}" style="margin-right:6px;">Assign</button>
+                        <button class="admin-complete-btn" data-idx="${idx}" style="margin-right:6px;">Mark Complete</button>
+                        <button class="admin-delete-btn" data-idx="${idx}" style="background:#e53935;color:#fff;border:none;padding:4px 8px;border-radius:6px;">Delete</button>
+                      </td>
+                    </tr>`;
+            }).join('');
+
+            panel.innerHTML = `
+                <table style="width:100%;border-collapse:collapse;">
+                  <thead>
+                    <tr style="text-align:left;border-bottom:1px solid #ddd;">
+                      <th>#</th><th>Name</th><th>Service</th><th>Phone</th><th>Email</th><th>Appointment</th><th>Counter</th><th>Note</th><th>Status</th><th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${rows}
+                  </tbody>
+                </table>
+            `;
+
+            // bind actions
+            document.querySelectorAll('.admin-assign-btn').forEach(btn => {
+                btn.addEventListener('click', function(){
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    const sel = document.querySelector(`select.assign-counter-select[data-idx="${idx}"]`);
+                    if (sel) {
+                        const val = sel.value;
+                        assignCounter(idx, val ? parseInt(val) : null);
+                    }
+                });
+            });
+            document.querySelectorAll('.admin-complete-btn').forEach(btn => {
+                btn.addEventListener('click', function(){
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    markAppointmentComplete(idx);
+                    renderAdminQueue();
+                });
+            });
+            document.querySelectorAll('.admin-delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(){
+                    const idx = parseInt(btn.getAttribute('data-idx'));
+                    if (confirm('Delete this appointment?')) { deleteAppointment(idx); renderAdminQueue(); }
+                });
+            });
+
+            // Next customers per counter panel
+            const countersNext = Array.from({length: NUM_COUNTERS}, (_,i)=>{
+                // find next active appointment for this counter, priority first
+                const forCounter = all.filter(a => a.counter === (i+1) && !a.completed);
+                // sort priority first then createdAt
+                forCounter.sort((a,b)=>{ const pa=a.isPriority?1:0; const pb=b.isPriority?1:0; if(pa!==pb) return pb-pa; return (a.createdAt||0)-(b.createdAt||0); });
+                const next = forCounter[0];
+                return {counter:i+1, next};
+            });
+
+            nextPanel.innerHTML = `
+                <h3>Next customers per counter</h3>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                  ${countersNext.map(cn=>`<div style="min-width:160px;padding:10px;border:1px solid #eee;border-radius:8px;background:#fff;"><strong>Counter ${cn.counter}</strong><br>${cn.next?cn.next.firstName+' '+cn.next.secondName+' '+(cn.next.isPriority?'<span style="color:#d32f2f">(PRIORITY)</span>':''):'No one'}</div>`).join('')}
+                </div>
+            `;
+        }
+
+        function assignCounter(idx, counterNumber) {
+            const all = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            if (!all[idx]) return;
+            all[idx].counter = counterNumber;
+            localStorage.setItem('myAppointments', JSON.stringify(all));
+            renderAdminQueue();
+        }
+
+        function markAppointmentComplete(idx) {
+            const all = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            if (!all[idx]) return;
+            all[idx].completed = true;
+            localStorage.setItem('myAppointments', JSON.stringify(all));
+        }
+
+        function deleteAppointment(idx) {
+            const all = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            if (!all[idx]) return;
+            all.splice(idx,1);
+            localStorage.setItem('myAppointments', JSON.stringify(all));
+        }
+
+        function clearExpiredAppointments() {
+            const all = JSON.parse(localStorage.getItem('myAppointments') || '[]');
+            const now = new Date();
+            const filtered = all.filter(appt => {
+                if (!appt.appointmentDate || !appt.appointmentTime) return true;
+                const apptDate = new Date(appt.appointmentDate + 'T' + appt.appointmentTime);
+                const expired = (now - apptDate) > 10 * 60 * 1000;
+                return !expired;
+            });
+            localStorage.setItem('myAppointments', JSON.stringify(filtered));
+        }
+    </script>
+    <script>
+        // Always show counters on page load
+        window.addEventListener('DOMContentLoaded', function () {
+            renderCounters();
+        });
+
+        //Booking logic for services
+        const queueNumbers = {};
+
+        function showBookingOption(serviceName) {
+            // Increment queue number for the service
+            if (!queueNumbers[serviceName]) {
+                queueNumbers[serviceName] = 1;
+            } else {
+                queueNumbers[serviceName]++;
+            }
+            const userNumber = queueNumbers[serviceName];
+            const bookingSpan = document.getElementById('booking-span');
+            bookingSpan.innerHTML = `
+		<div style="padding: 16px; border: 1px solid #ccc; background: #f9f9f9; max-width: 350px;">
+			<strong>Booking for: ${serviceName}</strong><br>
+			<button onclick="confirmBooking('${serviceName}', ${userNumber})">Book this service</button>
+		</div>
+	`;
+            bookingSpan.style.display = 'block';
+        }
+
+        function confirmBooking(serviceName, userNumber) {
+            const bookingSpan = document.getElementById('booking-span');
+            bookingSpan.innerHTML = `
+		<div style="padding: 16px; border: 1px solid #4caf50; background: #e8f5e9; max-width: 350px;">
+			<strong>Booking Confirmed!</strong><br>
+			Service: ${serviceName}<br>
+			Your queue number: <span style="font-weight:bold; color:#388e3c;">${userNumber}</span>
+			<br><button onclick="closeBookingSpan()">Close</button>
+		</div>
+	`;
+            bookingSpan.style.display = 'block';
+        }
+
+        function closeBookingSpan() {
+            document.getElementById('booking-span').style.display = 'none';
+        }
+
+        // Attach click listeners to service squares after DOM is loaded
+        window.addEventListener('DOMContentLoaded', function () {
+            const serviceSquares = document.querySelectorAll('.service-square');
+            const appointmentBox = document.querySelector('.appointment-box');
+            const firstNameInput = document.getElementById('first-name');
+            const serviceTypeInput = document.getElementById('service-type');
+
+            serviceSquares.forEach(function (square) {
+                square.addEventListener('click', function () {
+                    var serviceName = square.textContent.trim();
+                    if (serviceTypeInput) serviceTypeInput.value = serviceName;
+                    if (appointmentBox) appointmentBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (firstNameInput) setTimeout(function () { firstNameInput.focus(); }, 400);
+                });
+            });
+        });
+
+        // Single consolidated showMainContent implementation
+        function showMainContent() {
+            const cover = document.getElementById('cover-page');
+            const statusDashboard = document.getElementById('status-dashboard');
+            const main = document.getElementById('main-content');
+            if (cover) cover.style.display = 'none';
+            if (statusDashboard) statusDashboard.style.display = 'none';
+            if (main) main.style.display = 'block';
+
+            const appointmentBox = document.getElementById('appointment-box');
+            const countersSection = document.getElementById('counters-section');
+            const appRating = document.getElementById('app-rating');
+            if (appointmentBox) appointmentBox.style.display = 'block';
+            if (countersSection) countersSection.style.display = 'block';
+            if (appRating) appRating.style.display = 'block';
+        }
+        function printTicket(idx) {
+            const ticketEl = document.getElementById('ticket-' + idx);
+            if (!ticketEl) {
+                alert('Ticket not found for printing.');
+                return;
+            }
+            const html = ticketEl.innerHTML;
+            const printWindow = window.open('', '_blank', 'width=600,height=800');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Appointment Ticket</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+                        h1 { text-align: center; color: #1976d2; }
+                        .ticket-box { border: 2px solid #1976d2; border-radius: 12px; padding: 20px; background: #fff; width: 100%; margin: 20px 0; }
+                    </style>
+                </head>
+                <body>
+                    <h1>Equity Bank Appointment Ticket</h1>
+                    <div class="ticket-box">
+                        ${html}
+                    </div>
+                    <script>window.print();<\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+
+           </script>
+</body>
+</html> 
